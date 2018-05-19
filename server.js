@@ -1,7 +1,7 @@
 const net = require('net');
 var mongoose=require('mongoose');
 
-const HOST = '111.230.91.243';
+const HOST = 'IP地址';
 const PORT = 6969;
 
 const server=net.createServer(function(socket) {
