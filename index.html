@@ -2,86 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <title>室内环境远程监测系统</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="Stylesheet.css">
+  <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
   <script src="https://cdn.bootcss.com/echarts/4.1.0.rc2/echarts-en.common.js"></script>
-  <style>
-    h1{
-      margin-bottom: 5%;
-    }
-  </style>
 </head>
 <body>
+<button>click</button>
 <div class="container">
   <h1>室内环境远程检测系统</h1>
   <div id="date"></div>
   <div class="row">
-    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
     <div id="temp" style="width: 600px;height:400px;"></div>
     <div id="humi" style="width: 600px;height:400px;"></div>
   </div>
 </div>
-
-<script>
-  var temp = echarts.init(document.getElementById('temp'));
-  var humi = echarts.init(document.getElementById('humi'));
-  var data=[27,26,26,27,26,26,27,28,29,28,27];
-  var date=[1,2,3,4,5,6,7,8,9,10];
-  var option_temp = {
-    title:{
-      text:'温度'
-    },
-    xAxis: {
-      type: 'category',
-      boundaryGap: false,
-      data: date
-    },
-    yAxis: {
-      boundaryGap: [0, '50%'],
-      type: 'value'
-    },
-    series: [
-      {
-        name:'成交',
-        type:'line',
-        smooth:true,
-        symbol: 'none',
-        stack: 'a',
-        data: data
-      }
-    ]
-  };
-
-  var option_humi = {
-    title:{
-      text:'湿度'
-    },
-    xAxis: {
-      type: 'category',
-      boundaryGap: false,
-      data: date
-    },
-    yAxis: {
-      boundaryGap: [0, '50%'],
-      type: 'value'
-    },
-    series: [
-      {
-        name:'成交',
-        type:'line',
-        smooth:true,
-        symbol: 'none',
-        stack: 'a',
-        data: data
-      }
-    ]
-  };
-
-
-
-  temp.setOption(option_temp);
-  humi.setOption(option_humi);
-
-</script>
+<script src="charts.js"></script>
 </body>
 </html>
