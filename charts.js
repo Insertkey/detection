@@ -1,3 +1,6 @@
+var data=require('./query.js');
+
+console.log(data());
 
 
 
@@ -19,8 +22,7 @@
 
 
 
-
-var temp = echarts.init(document.getElementById('temp'));
+/*var temp = echarts.init(document.getElementById('temp'));
 var humi = echarts.init(document.getElementById('humi'));
 var data=[27,26,26,27,26,26,27,28,29,28,27];
 var date=[1,2,3,4,5,6,7,8,9,10];
@@ -79,4 +81,4 @@ var option_humi = {
 
 
 temp.setOption(option_temp);
-humi.setOption(option_humi);
+humi.setOption(option_humi);*/
