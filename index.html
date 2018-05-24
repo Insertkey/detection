@@ -6,19 +6,97 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <link rel="stylesheet" href="Stylesheet.css">
-  <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+  <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
   <script src="https://cdn.bootcss.com/echarts/4.1.0.rc2/echarts-en.common.js"></script>
 </head>
 <body>
-<button>click</button>
 <div class="container">
   <h1>室内环境远程检测系统</h1>
   <div id="date"></div>
   <div class="row">
-    <div id="temp" style="width: 600px;height:400px;"></div>
+    <div id="tem" style="width: 600px;height:400px;"></div>
     <div id="humi" style="width: 600px;height:400px;"></div>
   </div>
 </div>
-<script src="charts.js"></script>
+<script>
+  function refresh() {
+    $.get("http://111.230.91.243/getTenData.txt",function (data,textStatus) {
+      var temp=JSON.parse(data);
+      temp.map(function (item,index,arry) {
+        data_tem.push(item["T"]);
+        data_humi.push(item["H"]);
+        if (data_tem.length>10){
+          data_tem.shift();
+        }
+        if (data_humi.length>10){
+          data_humi.shift();
+        }
+      });
+      console.log(data_tem);
+      tem.setOption(option_tem);
+      humi.setOption(option_humi);
+    });
+  }
+  var tem = echarts.init(document.getElementById('tem'));
+  var humi = echarts.init(document.getElementById('humi'));
+  var data_tem=[];
+  var data_humi=[];
+  var date=[];
+
+
+
+
+  var option_tem = {
+    title:{
+      text:'温度(单位：℃)'
+    },
+    xAxis: {
+      type: 'category',
+      boundaryGap: false,
+      data: date
+    },
+    yAxis: {
+      boundaryGap: [0, '50%'],
+      type: 'value'
+    },
+    series: [
+      {
+        name:'成交',
+        type:'line',
+        smooth:true,
+        symbol: 'none',
+        stack: 'a',
+        data: data_tem
+      }
+    ]
+  };
+
+  var option_humi = {
+    title:{
+      text:'湿度(相对湿度%)'
+    },
+    xAxis: {
+      type: 'category',
+      boundaryGap: false,
+      data: date
+    },
+    yAxis: {
+      boundaryGap: [0, '50%'],
+      type: 'value'
+    },
+    series: [
+      {
+        name:'成交',
+        type:'line',
+        smooth:true,
+        symbol: 'none',
+        stack: 'a',
+        data: data_humi
+      }
+    ]
+  };
+
+  //setInterval(refresh,5000);
+</script>
 </body>
 </html>
