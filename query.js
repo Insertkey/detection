@@ -2,7 +2,7 @@ var MongoClient = require('mongodb').MongoClient;
 const url = "mongodb://localhost:27017/";
 var fs=require('fs');
 
-function getTenData() {
+function getData() {
   MongoClient.connect(url, function (err, db) {
     if (err) throw err;
     var dbo = db.db("test");
@@ -13,10 +13,10 @@ function getTenData() {
     dbo.collection("detection").find(/*{"date":{$gt:now-1000*60*2}}*/).toArray(function (err, result) {
       if (err) throw err;
       //取得一个最新的数据
-      data = result.slice(result.length - 10, result.length);
+      data = result.pop();
       db.close();
 
-      fs.writeFile('getTenData.txt', JSON.stringify(data), function (err) {
+      fs.writeFile('getData.txt', JSON.stringify(data), function (err) {
         if (err) {
           return console.error(err);
         }
@@ -25,7 +25,7 @@ function getTenData() {
     });
   })
 }
-setInterval(getTenData,5000);
+setInterval(getData,5000);
 
 
 

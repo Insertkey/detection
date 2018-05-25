@@ -20,23 +20,25 @@
 </div>
 <script>
   function refresh() {
-    $.get("http://111.230.91.243/getTenData.txt",function (data,textStatus) {
+    $.get("http://111.230.91.243/getData.txt",function (data,textStatus) {
       var temp=JSON.parse(data);
-      temp.map(function (item,index,arry) {
-        data_tem.push(item["T"]);
-        data_humi.push(item["H"]);
+        data_tem.push(temp["T"]);
+        data_humi.push(temp["H"]);
+        date.push(temp["date"]);
         if (data_tem.length>10){
           data_tem.shift();
         }
         if (data_humi.length>10){
           data_humi.shift();
         }
-      });
-      console.log(data_tem);
+        if (date.length>10){
+          date.shift();
+        }
       tem.setOption(option_tem);
       humi.setOption(option_humi);
     });
   }
+
   var tem = echarts.init(document.getElementById('tem'));
   var humi = echarts.init(document.getElementById('humi'));
   var data_tem=[];
@@ -96,7 +98,7 @@
     ]
   };
 
-  //setInterval(refresh,5000);
+  setInterval(refresh,5000);
 </script>
 </body>
 </html>
