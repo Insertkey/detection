@@ -9,8 +9,8 @@ function getData() {
     //取得现在时间的毫秒数
     now = Date.now();
 
-    //获取前两分钟插入数据库的数据
-    dbo.collection("detection").find(/*{"date":{$gt:now-1000*60*2}}*/).toArray(function (err, result) {
+    //获取前30秒插入数据库的数据
+    dbo.collection("detection").find({"date":{$gt:now-1000*30}}).toArray(function (err, result) {
       if (err) throw err;
       //取得一个最新的数据
       data = result.pop();

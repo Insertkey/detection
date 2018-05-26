@@ -12,28 +12,54 @@
 <body>
 <div class="container">
   <h1>室内环境远程检测系统</h1>
-  <div id="date"></div>
+  <ul>
+    <li id="DATE">当前时间：<span></span></li>
+    <li id="temprature">温度：<span></span><span>℃</span></li>
+    <li id="humidity">湿度：<span></span><span>%</span></li>
+    <li id="MQ"><span></span></li>
+  </ul>
   <div class="row">
-    <div id="tem" style="width: 600px;height:400px;"></div>
-    <div id="humi" style="width: 600px;height:400px;"></div>
+    <div id="tem" style="width: 800px;height:400px;"></div>
+    <div id="humi" style="width: 800px;height:400px;"></div>
   </div>
 </div>
 <script>
+  $(document).ready(function () {
+    $.get("http://111.230.91.243/getData.txt",function (data) {
+      var temp=JSON.parse(data);
+      var tempr=$("#temprature :first");
+      tempr.text("");
+      tempr.append(temp["T"]);
+      var humid=$("#humidity :first");
+      humid.text("");
+      humid.append(temp["H"]);
+
+    });
+  });
   function refresh() {
     $.get("http://111.230.91.243/getData.txt",function (data,textStatus) {
       var temp=JSON.parse(data);
-        data_tem.push(temp["T"]);
-        data_humi.push(temp["H"]);
-        date.push(temp["date"]);
-        if (data_tem.length>10){
+      //更新温度数值
+      var tempr=$("#temprature :first");
+      tempr.text("");
+      tempr.append(temp["T"]);
+      //更新湿度数值
+      var humid=$("#humidity :first");
+      humid.text("");
+      humid.append(temp["H"]);
+
+      data_tem.push(temp["T"]);
+      data_humi.push(temp["H"]);
+      date.push(temp["date"]);
+      if (data_tem.length>10){
           data_tem.shift();
-        }
-        if (data_humi.length>10){
+      }
+      if (data_humi.length>10){
           data_humi.shift();
-        }
-        if (date.length>10){
-          date.shift();
-        }
+      }
+      if (date.length>10){
+        date.shift();
+      }
       tem.setOption(option_tem);
       humi.setOption(option_humi);
     });
@@ -44,9 +70,6 @@
   var data_tem=[];
   var data_humi=[];
   var date=[];
-
-
-
 
   var option_tem = {
     title:{
@@ -97,6 +120,10 @@
       }
     ]
   };
+
+  //DOM加载完毕时，先渲染一次表格，防止页面加载完毕后出现空白，提高用户体验
+  tem.setOption(option_tem);
+  humi.setOption(option_humi);
 
   setInterval(refresh,5000);
 </script>
