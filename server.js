@@ -1,7 +1,7 @@
 const net = require('net');
 var mongoose=require('mongoose');
 
-const HOST = 'IP地址';
+const HOST = '111.230.91.243';
 const PORT = 6969;
 
 const server=net.createServer(function(socket) {
@@ -23,11 +23,10 @@ const server=net.createServer(function(socket) {
     MongoClient.connect(url, function(err, db) {
       if (err) throw err;
       var dbo = db.db("test");
-      //获取当前时间并转换为字符串
-      var date=new Date();
-      var nowDate=date.toUTCString();
+      //获取当前时间的毫秒数
+      var date=Date.now();
       //处理字符串
-      var string=data.slice(0,data.length-1)+','+'"date":'+'"'+nowDate+'"'+'}';
+      var string=data.slice(0,data.length-1)+','+'"date":'+date+'}';
       //将字符串转换为一个JSON对象
       var myobj = JSON.parse(string);
       dbo.collection("detection").insertOne(myobj, function(err, res) {
