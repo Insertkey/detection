@@ -25,6 +25,7 @@ function getData() {
     });
   })
 }
+//5秒查询一次
 setInterval(getData,5000);
 
 
