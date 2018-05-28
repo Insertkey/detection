@@ -31,8 +31,12 @@
       var humid=$("#humidity :first");
       humid.text("");
       humid.append(temp["H"]);
-
-    });
+      var DATE=temp["date"];
+      var now =formatDate(new Date(DATE));
+      var shijian=$("#DATE :first");
+      shijian.text("");
+      shijian.append(now);
+    },"text");
   });
   function refresh() {
     $.get("http://111.230.91.243/getData.txt",function (data,textStatus) {
@@ -45,10 +49,13 @@
       var humid=$("#humidity :first");
       humid.text("");
       humid.append(temp["H"]);
+      //更新时间
+      var DATE=temp["date"];
+      var now =formatDate(new Date(DATE));
 
       data_tem.push(temp["T"]);
       data_humi.push(temp["H"]);
-      date.push(temp["date"]);
+      date.push(now);
       if (data_tem.length>10){
           data_tem.shift();
       }
@@ -62,7 +69,13 @@
       humi.setOption(option_humi);
     });
   }
-
+  
+  function formatDate(now) {
+    var hour=now.getHours();
+    var minute=now.getMinutes();
+    var second=now.getSeconds();
+    return hour+":"+minute+":"+second;
+  }
   var tem = echarts.init(document.getElementById('tem'));
   var humi = echarts.init(document.getElementById('humi'));
   var data_tem=[];
@@ -84,7 +97,7 @@
     },
     series: [
       {
-        name:'成交',
+        name:'数值',
         type:'line',
         smooth:true,
         symbol: 'none',
@@ -109,7 +122,7 @@
     },
     series: [
       {
-        name:'成交',
+        name:'数值',
         type:'line',
         smooth:true,
         symbol: 'none',
