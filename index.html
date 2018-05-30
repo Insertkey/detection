@@ -36,7 +36,16 @@
       var shijian=$("#DATE :first");
       shijian.text("");
       shijian.append(now);
-    },"text");
+      var mq=$("#MQ :first");
+      if (temp["M"]===0){
+        mq.text("");
+        mq.append("可燃气未泄漏")
+      }
+      else {
+        mq.text("");
+        mq.append("可燃气泄漏!!!")
+      }
+    });
   });
   function refresh() {
     $.get("http://111.230.91.243/getData.txt",function (data,textStatus) {
@@ -52,6 +61,19 @@
       //更新时间
       var DATE=temp["date"];
       var now =formatDate(new Date(DATE));
+      var shijian=$("#DATE :first");
+      shijian.text("");
+      shijian.append(now);
+      //更新可燃气体泄漏与否
+      var mq=$("#MQ :first");
+      if (temp["M"]===0){
+        mq.text("");
+        mq.append("可燃气未泄漏")
+      }
+      else {
+        mq.text("");
+        mq.append("可燃气泄漏!!!")
+      }
 
       data_tem.push(temp["T"]);
       data_humi.push(temp["H"]);
