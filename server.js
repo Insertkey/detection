@@ -15,25 +15,34 @@ const server=net.createServer(function(socket) {
   });
 
   socket.setEncoding('utf8');
+  //错误处理
+  socket.on('error',function(){
+    console.log("出现了一个错误，文档未成功插入");
+  });
 
   socket.on('data',function (data) {
     var MongoClient=require('mongodb').MongoClient;
     const url="mongodb://localhost:27017/";
     console.log(data);
-    MongoClient.connect(url, function(err, db) {
-      if (err) throw err;
-      var dbo = db.db("test");
-      //获取当前时间的毫秒数
-      var date=Date.now();
-      //处理字符串
-      var string=data.slice(0,data.length-1)+','+'"date":'+date+'}';
-      //将字符串转换为一个JSON对象
-      var myobj = JSON.parse(string);
-      dbo.collection("detection").insertOne(myobj, function(err, res) {
+    //验证接收到的数据是否是一个对象字符串
+    var reg=/^{/
+    if(reg.test(data)){
+      MongoClient.connect(url, function(err, db) {
         if (err) throw err;
-        console.log("文档插入成功");
+        var dbo = db.db("test");
+        //获取当前时间的毫秒数
+        var date=Date.now();
+        //处理字符串
+        var string=data.slice(0,data.length-1)+','+'"date":'+date+'}';
+        //将字符串转换为一个JSON对象
+        var myobj = JSON.parse(string);
+        dbo.collection("detection").insertOne(myobj, function(err, res) {
+          if (err) throw err;
+          console.log("文档插入成功");
+        });
+        db.close();
       });
-    });
+    }
   });
 }).listen(PORT);
 
